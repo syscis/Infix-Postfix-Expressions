@@ -29,7 +29,7 @@ def infix_to_postfix(infixexpr):
         except ValueError:
             if len(token) > 1 and token.__contains__('/'):
                 postfix_list.append(str(float(MixedFraction.from_string(token))))
-            elif token in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" or token in "0123456789":
+            elif token in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
                 postfix_list.append(token)
             elif token == '(':
                 op_stack.push(token)
