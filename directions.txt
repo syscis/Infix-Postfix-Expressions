@@ -1,0 +1,87 @@
+Objectives:
+
+    Implement a program using your DLL based Stack to evaluate a mix of infix and postfix expressions with integers and decimals as read from a file
+    Exception Handling, and Errors - detect errors, raise and catch exceptions
+    Practice using the Python API to understand and implement new concepts (raising and handling exceptions).
+    Fully document any methods you write or modify with docstrings
+    Extend your program to handle infix and postfix expressions with fractions and mixed fractions
+
+In this lab we use the Stack data structure to convert infix to postfix and to evaluate postfix expressions. We use exceptions to efficiently determine the types a string could represent allowing for multiple types of operands in our expressions. We also use exceptions to make our program more robust, enabling our programs to continue to work after encountering bad expressions and key errors.
+
+    Preliminaries and General Guidelines:
+        Start a new project in PyCharm, add your working DLL, Stack based on the DLL, Fraction, and MixedFraction classes.
+        Review the section on Error Handling in our text, Exception Handling, and in Python Docs, Errors.
+        Add your name to the __author__ field, in the line following your import statements, on all modules you write.
+        Fully document any methods you write or modify with docstrings.
+        Upload your zipped PyCharm project with all resources to Blackboard when completed.
+
+    Problem 1   25 pts
+        Write code to convert an infix expression to postfix so that it handles numbers (like 3.14 and 25) rather than just single digit numbers.
+        This is a small modification of Listing 3.7  - be sure to run the active code in your text before writing your own version. This code checks to see if the token is in either the alpha character set or the numeric character set and if so, appends the token (now identified as an operand) to the postfixList. If the token is not an operand, it is processesed using the operator stack (opStack). The issue is with the numeric character set, which only works for a single digit token. We want to identify and add to the postfixList any string representing an integer or a float.
+        Exceptions can be very useful in efficiently determining whether a token is a number or not. Here is the syntax:
+        try:
+            float(token)
+            # no exception thrown, it represents a number so add the token to the postfixList
+        except ValueError:
+             # when the exception is thrown perform the non-numeric processing
+        mouse over to see sample
+        Detect errors ( raise and handle exceptions): If the stack is empty, and a pop is attempted, have the stack raise an error (2 pts). Catch this error when you pop the topToken in infixToPostfix, and print "bad expression" followed by the offending expression (4 pts).
+        The dictionary holding operand precedence will throw a KeyError if the opStack peek returns a value not in the dictionary. Add the operator to the precedence dictionary if it belongs, otherwise catch this KeyError and print the offending token and expression (4 pts).
+        Make this program run independently (has a main function that is automatically invoked when this module is run) and use your DLL version of the Stack.
+        Add these seven statements to main:
+        print(infixToPostfix("A * B + C ^ D"))
+        print(infixToPostfix("( 4.4 + 4.6 ) ^ ( 2 / ( 1 + 3 ) )"))
+        print(infixToPostfix("( 2 ^ 20 ) ^ ( 2 / ( 1 + 3 ) )"))
+        print(infixToPostfix("A * B ) + ( C ^ D )"))
+        print(infixToPostfix("( A * B ) + (C ^ D )"))
+        print(infixToPostfix("7 + 9 * 8 / 4 ^ 2"))
+        print(infixToPostfix("( 17 + 9 ) * 3 / ( 5 - 3 ) ^ 4"))
+        Expected output:
+        A B * C D ^ +
+        4.4 4.6 + 2 1 3 + / ^
+        2 20 ^ 2 1 3 + / ^
+        bad expression: A * B ) + ( C ^ D )
+        KeyError: '(C' in ( A * B ) + (C ^ D )
+        7 9 8 * 4 2 ^ / +
+        17 9 + 3 * 5 3 - 4 ^ /
+
+    Problem 2   25 pts
+        Import the module from problem 1 to convert the infix expressions prior to evaluation. Do not use an * in your import statement.
+        Write code to take an expression in postfix form and evaluate it (Listing 3.8).
+        Push either integers or floats onto the operandStack as appropriate.
+        Make this program run independently. Test your program by iterating over the lists postfixExpressions and infixExpressions.
+        postfixExpressions = ['4.4 4.6 + 2 1 3 + / ^', '2 20 ^ 2 1 3 + / ^', '2 20 + 2 1 3 + + *', '2 -1 3 + -']
+        infixExpressions = ["7 + 9 * 8 - 4 ^ 2", "7 + 9 * 8 / 4 ^ 2", "( 17 + 9 ) * 3 / ( 5 - 3 ) ^ 4", "7.5 + 9 - 1.8 / 4 ^ 2.5"]
+         Add print statements in your main to display the expression and its result. Note the integer results, be sure to push the correct type onto the operandStack, arithmetic promotion only occurs with mixed types and '/'.
+        Sample output:
+        4.4 4.6 + 2 1 3 + / ^ = 3.0
+        2 20 ^ 2 1 3 + / ^ = 1,024.0
+        2 20 + 2 1 3 + + * = 132
+        2 -1 3 + - = 0
+        7 + 9 * 8 - 4 ^ 2 = 63
+        7 + 9 * 8 / 4 ^ 2 = 11.5
+        ( 17 + 9 ) * 3 / ( 5 - 3 ) ^ 4 = 4.875
+        7.5 + 9 - 1.8 / 4 ^ 2.5 = 16.44375
+
+    Problem 3  35 pts
+        Write a program that reads in a mix of infix and postfix expressions from "expressions.txt". Add this file to your project.
+        Your program should call functions from modules written for problems 1 and 2 to evaluate the expressions.
+        Print each expression and its answer one problem per line.
+        Running problem 3 on expressions.txt produced this output:
+        7 + 9 * 8 - 4 ^ 2 = 63
+        7 + 9 * 8 / 4 ^ 2 = 11.5
+        ( 17 + 9 ) * 3 / ( 5 - 3 ) ^ 4 = 4.875
+        7.5 + 9 - 1.8 / 4 ^ 2.5 = 16.44375
+        7 9 8 * 4 2 ^ / + = 11.5
+        17 9 + 3 * 5 3 - 4 ^ / = 4.875
+        7.5 9 + 1.8 4 2.5 ^ / - = 16.44375
+
+    Problem 4  15 pts
+        Make small modifications to the appropriate modules and your problem 3 program to handle MixedFractions. Add this file to your project, "fractionExpressions.txt" - note the space around each parenthesis for easy processing. Process this file after processing expressions.txt.
+        Print each expression and its answer, displayed in both mixed fraction and decimal, one problem per line.
+        Running your modified problem 3 on fractionExpressions.txt should add the following output:
+        7 + 9 * 8 - ( 1/4 ) ^ 2 = 78 15/16 = 78.9375
+        7 + 9 * 4/8 = 11 1/2 = 11.5
+        ( 17 + 9 ) * 3/16 = 4 7/8 = 4.875
+        17 + 9 * 3/16 = 18 11/16 = 18.6875
+        3/16 * 17 + 9 = 12 3/16 = 12.1875
