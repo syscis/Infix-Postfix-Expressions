@@ -30,7 +30,7 @@ class MixedFraction (Fraction):
             return super().__str__()
         elif self.n == 0:
             return str(self.whole)
-        return '{} {}/{}'.format(str(self.whole), str(self.n), str(self.den))
+        return '{} {}/{}'.format(str(int(self.whole)), str(int(self.n)), str(int(self.den)))
 
     def __add__(self, other):
         """ Adds this fraction to the input parameter (also a
@@ -113,32 +113,33 @@ class MixedFraction (Fraction):
 
 
 def main():
-    fraction_list = ['330/287', '50 330/287', '1808/287', '27/3']
-    new_fraction_list = []
-    fraction_sum = MixedFraction(0)
-    for x in range(len(fraction_list)):
-        if x != 3:
-            new_fraction_list.append(MixedFraction.from_string(fraction_list[x]))
-            fraction_sum += MixedFraction.from_string(fraction_list[x])
-        else:
-            new_fraction_list.append(Fraction.from_string(fraction_list[x]))
-            fraction_sum += Fraction.from_string(fraction_list[x])
-    holder = ''
-    holder += '{:} = {:}'.format(' + '.join('{:}'.format(f) for f in new_fraction_list), fraction_sum)
-    print(holder)
-    for item in new_fraction_list:
-        holder = ''
-        top = Fraction.factor_fraction(item)[0]
-        bottom = Fraction.factor_fraction(item)[1]
-        if len(bottom) != 0:
-            holder += '{:} = ({:}) / ({:})'.format(item, ' * '.join('{:}'.format(f) for f in top),
-                                                   ' * '.join('{:}'.format(a) for a in bottom))
-        else:
-            holder += '{:} = ({:}) '.format(item, ' * '.join('{:}'.format(f) for f in top))
-        print(holder)
-
-    mix = MixedFraction(12/4)
-    print(float(mix))
+    # fraction_list = ['330/287', '50 330/287', '1808/287', '27/3']
+    # new_fraction_list = []
+    # fraction_sum = MixedFraction(0)
+    # for x in range(len(fraction_list)):
+    #     if x != 3:
+    #         new_fraction_list.append(MixedFraction.from_string(fraction_list[x]))
+    #         fraction_sum += MixedFraction.from_string(fraction_list[x])
+    #     else:
+    #         new_fraction_list.append(Fraction.from_string(fraction_list[x]))
+    #         fraction_sum += Fraction.from_string(fraction_list[x])
+    # holder = ''
+    # holder += '{:} = {:}'.format(' + '.join('{:}'.format(f) for f in new_fraction_list), fraction_sum)
+    # print(holder)
+    # for item in new_fraction_list:
+    #     holder = ''
+    #     top = Fraction.factor_fraction(item)[0]
+    #     bottom = Fraction.factor_fraction(item)[1]
+    #     if len(bottom) != 0:
+    #         holder += '{:} = ({:}) / ({:})'.format(item, ' * '.join('{:}'.format(f) for f in top),
+    #                                                ' * '.join('{:}'.format(a) for a in bottom))
+    #     else:
+    #         holder += '{:} = ({:}) '.format(item, ' * '.join('{:}'.format(f) for f in top))
+    #     print(holder)
+    #
+    # mix = MixedFraction(12/4)
+    # print(float(mix))
+    print(MixedFraction(12.1875))
 
 
 if __name__ == '__main__':
